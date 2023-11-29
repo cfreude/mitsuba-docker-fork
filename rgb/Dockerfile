@@ -1,5 +1,16 @@
+# apt works but compile fails
+FROM ubuntu:16.04
+
+# apt works but compile fails
+#FROM ubuntu:18.04
+
+# some apt 404
 #FROM ubuntu:19.04
-FROM ubuntu:14.04
+
+# Unable to locate package qt4-dev-tools
+#FROM ubuntu:20.04
+
+#FROM ubuntu:23.10
 
 LABEL authors="Ben Heasly <benjamin.heasly@gmail.com>, Marceli Wac <marceliwac@gmail.com>"
 
@@ -18,16 +29,16 @@ LABEL authors="Ben Heasly <benjamin.heasly@gmail.com>, Marceli Wac <marceliwac@g
 #    && apt-get autoremove
 
 # GCC 6
-RUN apt-get update && \
-    apt-get install build-essential software-properties-common -y && \
-    add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
-    apt-get update && \
-    apt-get install gcc-snapshot -y && \
-    apt-get update && \
-    apt-get install gcc-6 g++-6 -y && \
-    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6 && \
-    apt-get install gcc-4.8 g++-4.8 -y && \
-    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8;
+#RUN apt-get update && \
+#    apt-get install build-essential software-properties-common -y && \
+#    add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
+#    apt-get update && \
+#    apt-get install gcc-snapshot -y && \
+#    apt-get update && \
+#    apt-get install gcc-6 g++-6 -y && \
+#    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6 && \
+#    apt-get install gcc-4.8 g++-4.8 -y && \
+#    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8;
 
 ### mitsuba dependencies
 RUN apt-get update \
@@ -36,7 +47,8 @@ RUN apt-get update \
     scons \
     git \
     qt4-dev-tools \
-    libpng12-dev \
+    #libpng12-dev \
+    libpng-dev \
     libjpeg-dev \
     libilmbase-dev \
     libxerces-c-dev \
@@ -44,9 +56,11 @@ RUN apt-get update \
     libopenexr-dev \
     libglewmx-dev \
     libxxf86vm-dev \
-    libpcrecpp0 \
+    #libpcrecpp0 \
+    libpcrecpp0v5 \
     libeigen3-dev \
     libfftw3-dev \
+    libcollada-dom-dev \
     #gcc-6.3 \
     wget \
     && apt-get clean \
@@ -56,9 +70,9 @@ RUN apt-get update \
 ENTRYPOINT ["tail", "-f", "/dev/null"]
 WORKDIR /mitsuba-ppg
 
-RUN wget http://www.mitsuba-renderer.org/releases/current/trusty/collada-dom-dev_2.4.0-1_amd64.deb \
-    && wget http://www.mitsuba-renderer.org/releases/current/trusty/collada-dom_2.4.0-1_amd64.deb \
-    && dpkg --install collada-dom*.deb
+#RUN wget https://ftp.debian.org/debian/pool/main/c/collada-dom/libcollada-dom-dev_2.5.0+ds1-1+b2_amd64.deb \
+#    && wget https://ftp.debian.org/debian/pool/main/c/collada-dom/libcollada-dom2.4-dp0_2.4.4+ds1-2+b3_amd64.deb \
+#    && dpkg --install collada-dom*.deb
 
 ### build Mitsuba
 #RUN git clone https://www.github.com/mitsuba-renderer/mitsuba.git
